@@ -22,8 +22,8 @@ image.src = "dfb.jpg";
 
 const canvas = document.querySelector("#canvas");
 const ctx = canvas.getContext("2d");
-canvas.height = 800;
-canvas.width = 1600;
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
 
 canvas.addEventListener("click", (ev) => {
   // if (speed > 0) speed = 0;
