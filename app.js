@@ -35,7 +35,7 @@ let y = 30;
 const r = 12;
 
 const maxSpeed = 2;
-const acc = 0.05;
+const acc = 0.005;
 let speed = 0;
 
 const startXPointWalls = canvas.width + 10;
@@ -52,9 +52,21 @@ let countWalls = 2;
 holes.push({ x: startXPointWalls, y: 100 + 30, count: 1 });
 
 console.log(holes);
+let dtime = 0;
+let lastTime = 0;
 
-function loop() {
+function loop(time) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (typeof time !== "number") {
+    time = 0;
+  }
+  dtime = time - lastTime;
+  // console.log("tu", typeof time === "undefined" ? 0 : time - lastTime);
+  dtime = +dtime.toFixed(2);
+  // console.log("time", time);
+  // console.log("dtime", dtime);
+  // console.log(x, y);
+  lastTime = time;
 
   // draw start point line
   drawLine(startXPointWalls, -10, startXPointWalls, canvas.height + 10, ctx);
@@ -71,7 +83,7 @@ function loop() {
       y: holeY,
       count: countWalls,
     });
-    console.log(holeSize);
+    // console.log(holeSize);
     countWalls++;
     holeSize--;
   }
@@ -89,9 +101,6 @@ function loop() {
     drawText(el.x, el.y + 20, el.count, ctx);
     drawRect(el.x, el.y + holeSize, wallWidth, canvas.height - el.y + 10, ctx);
   });
-
-  // apply acc to speed
-  if (speed < maxSpeed) speed = +(speed + acc).toFixed(2);
 
   // end game
   if (y + r > canvas.height || y - r < 0) {
@@ -127,17 +136,22 @@ function loop() {
 
   if (collide) return;
 
+  // apply acc to speed
+  if (speed < maxSpeed) speed = +(speed + acc * dtime).toFixed(2);
+
   // moving y-axis
   y = y + speed;
 
   // moving walls
   holes.forEach((el, index) => {
-    holes[index].x = el.x - 1;
+    holes[index].x = el.x - 0.15 * dtime;
   });
 
-  // drawText(x + 15, y, speed, ctx);
-
   requestAnimationFrame(loop);
+  // drawText(x + 15, y, speed, ctx);
 }
+// setInterval(() => {
+//   console.log(frames);
+// }, 1000);
 
 loop();
