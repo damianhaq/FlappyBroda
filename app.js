@@ -30,7 +30,7 @@ canvas.addEventListener("click", (ev) => {
   speed = -maxSpeed;
 });
 
-let x = 300;
+let x = canvas.width / 3;
 let y = 30;
 const r = 12;
 
@@ -62,10 +62,13 @@ function loop() {
   // add walls
   if (holes[holes.length - 1].x - startXPointWalls < 0) {
     const nextWallDistance = randomNumber(150, 400);
-    const holeHeight = randomNumber(150, 400);
+    const holeY = randomNumber(
+      canvas.height / 10,
+      canvas.height - canvas.height / 10
+    );
     holes.push({
       x: startXPointWalls + nextWallDistance,
-      y: holeHeight,
+      y: holeY,
       count: countWalls,
     });
     console.log(holeSize);
