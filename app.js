@@ -64,7 +64,7 @@ function loop() {
     const nextWallDistance = randomNumber(150, 400);
     const holeY = randomNumber(
       canvas.height / 10,
-      canvas.height - canvas.height / 10
+      canvas.height - holeSize - canvas.height / 10
     );
     holes.push({
       x: startXPointWalls + nextWallDistance,
